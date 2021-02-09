@@ -1,7 +1,7 @@
 template.pdf: template.tex main
 	./main
-	pdflatex template.tex
-	pdflatex template.tex
+	xelatex template.tex
+	xelatex template.tex
 
 template.tex: main
 
