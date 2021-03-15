@@ -1,0 +1,67 @@
+\paragraph{广义矩阵乘法}~{}
+\par
+
+定义广义矩阵乘法 $A\times B=C$ 为：
+
+$$
+C_{i,j}=\max_{k=1}^{n}(A_{i,k}+B_{k,j})
+$$
+
+相当于将普通的矩阵乘法中的乘变为加，加变为 $\max$ 操作。\par
+
+同时广义矩阵乘法满足结合律，所以可以使用矩阵快速幂。\par
+
+\paragraph{不带修改操作}~{}
+\par
+
+令 $f_{i,0}$ 表示不选择 $i$ 的最大答案，$f_{i,1}$ 表示选择 $i$ 的最大答案。\par
+
+则有 DP 方程：
+
+$$
+\begin{cases}f_{i,0}=\sum_{son}\max(f_{son,0},f_{son,1})\\f_{i,1}=w_i+\sum_{son}f_{son,0}\end{cases}
+$$
+
+答案就是 $\max(f_{root,0},f_{root,1})$.\par
+
+\paragraph{带修改操作}~{}
+\par
+
+
+设 $g_{i,0}$ 表示不选择 $i$ 且只允许选择 $i$ 的轻儿子所在子树的最大答案，$g_{i,1}$ 表示选择 $i$ 的最大答案，$son_i$ 表示 $i$ 的重儿子。\par
+
+假设我们已知 $g_{i,0/1}$ 那么有 DP 方程：
+
+$$
+\begin{cases}f_{i,0}=g_{i,0}+\max(f_{son_i,0},f_{son_i,1})\\f_{i,1}=g_{i,1}+f_{son_i,0}\end{cases}
+$$
+
+答案是 $\max(f_{root,0},f_{root,1})$.\par
+
+可以构造出矩阵：
+
+$$
+\begin{bmatrix}
+g_{i,0} & g_{i,0}\\
+g_{i,1} & -\infty
+\end{bmatrix}\times 
+\begin{bmatrix}
+f_{son_i,0}\\f_{son_i,1}
+\end{bmatrix}=
+\begin{bmatrix}
+f_{i,0}\\f_{i,1}
+\end{bmatrix}
+$$
+
+注意，我们这里使用的是广义乘法规则。\par
+
+可以发现，修改操作时只需要修改 $g_{i,1}$ 和每条往上的重链即可。\par
+
+\paragraph{具体思路}~{}
+\par
+\begin{itemize}
+    \item DFS 预处理求出 $f_{i,0/1}$ 和 $g_{i,0/1}$.
+    \item 对这棵树进行树剖（注意，因为我们对一个点进行询问需要计算从该点到该点所在的重链末尾的区间矩阵乘，所以对于每一个点记录 $End_i$ 表示 $i$ 所在的重链末尾节点编号），每一条重链建立线段树，线段树维护 $g$ 矩阵和 $g$ 矩阵区间乘积。
+    \item 修改时首先修改 $g_{i,1}$ 和线段树中 $i$ 节点的矩阵，计算 $top_i$ 矩阵的变化量，修改到 $fa_{top_i}$ 矩阵。
+    \item 查询时就是 1 到其所在的重链末尾的区间乘，最后取一个 $\max$ 即可。
+\end{itemize}

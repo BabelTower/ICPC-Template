@@ -1,0 +1,82 @@
+\paragraph{概述}~{}
+\par
+直观上，字符串的 Suffix Automation(SAM) 可以理解为给定字符串的 \textbf{所有子串} 的压缩形式。
+值得注意的事实是，SAM 将所有的这些信息以高度压缩的形式储存。对于一个长度为 $n$ 的字符串，它的空间复杂度仅为 $O(n)$ 。
+此外，构造 SAM 的时间复杂度仅为 $O(n)$ 。准确地说，一个 SAM 最多有 $2n-1$ 个节点和 $3n-4$ 条转移边。 \par
+
+\paragraph{性质}~{}
+\par
+裸的后缀自动机仅仅是一个可以接收子串的自动机，在它的状态结点上维护的性质才是解题的关键。\par
+
+子串可以根据它们结束的位置 $endpos$ 被划分为多个等价类, SAM 由初始状态 $t_0$ 和与每一个 $endpos$ 等价类对应的每个状态组成。\par
+
+一个构造好的 SAM 实际上包含了两个图：\par
+\begin{enumerate}
+\item 由 $next$ 数组组成的 $DAG$ 图；\par
+\item 由 $link$ 指针构成的 $parent$ 树。\par
+\end{enumerate}
+SAM 的状态结点包含了很多重要的信息：\par
+\begin{itemize}
+\item $maxlen$：即代码中 $len$ 变量，它表示该状态能够接受的最长的字符串长度。\par
+\item $minlen$：表示该状态能够接受的最短的字符串长度。实际上等于该状态的 $link$ 指针指向的结点的 $len+1$。\par
+\item $maxlen-minlen+1$：表示该状态能够接受的不同的字符串数。\par
+\item $right$：即 结束位置的集合 $endpos-set$ 的个数，表示这个状态在字符串中出现了多少次，
+该状态能够表示的所有字符串均出现过 $right$ 次。\par
+\item $link$：$link$ 指向了一个能够表示当前状态表示的所有字符串的最长公共后缀的结点。
+所有的状态的 $link$ 指针构成了一个 $parent$ 树，恰好是字符串的逆序的后缀树。\par
+\item $parent$ 树的拓扑序：序列中第i个状态的子结点必定在它之后，父结点必定在它之前。\par
+\end{itemize}
+如果我们从任意状态 $v_0$ 开始顺着后缀链接遍历，总会到达初始状态 $t_0$ 。
+这种情况下我们可以得到一个互不相交的区间 $[\operatorname{minlen}(v_i),\operatorname{len}(v_i)]$ 的序列，
+且它们的并集形成了连续的区间 $[0,\operatorname{len}(v_0)]$ 。\par
+
+
+\paragraph{拓展}~{}
+\par
+设字符串的长度为 $n$ ，考虑 $extend$ 操作中 $cur$ 变量的值，这个节点对应的状态是执行 $extend$ 操作时的当前字符串，即字符串的一个前缀，每个前缀有一个终点。
+这样得到的 $n$ 个节点，对应了 $n$ 个不同的 终点 。设第 $i$ 个节点为 $v_i$ ，对应的是 $S_{1 \ldots i}$ ，终点是 $i$ 。姑且把这些节点称之为“终点节点”。\par
+
+考虑给 SAM 赋予树形结构，树的根为 0，且其余节点 $v$ 的父亲为 $\operatorname{link}(v)$ 。则这棵树与原 SAM 的关系是：\par
+\begin{itemize}
+\item 每个节点的终点集合等于其 子树 内所有终点节点对应的终点的集合。\par
+\end{itemize}
+在此基础上可以给每个节点赋予一个最长字符串，是其终点集合中 任意 一个终点开始 往前 取 len 个字符得到的字符串。每个这样的字符串都一样，且 len 恰好是满足这个条件的最大值。\par
+
+这些字符串满足的性质是：\par
+\begin{itemize}
+\item 如果节点 A 是 B 的祖先，则节点 A 对应的字符串是节点 B 对应的字符串的 后缀 。\par
+\end{itemize}
+这条性质把字符串所有前缀组成了一棵树，且有许多符合直觉的树的性质。
+例如， $S_{1 \ldots p}$ 和 $S_{1 \ldots q}$ 的最长公共后缀对应的字符串就是 $v_p$ 和 $v_q$ 对应的 LCA 的字符串。
+实际上，这棵树与将字符串 $S$ 翻转后得到字符串的压缩后缀树结构相同。\par
+
+\paragraph{构造}~{}
+\par
+构造SAM是在线算法，逐个加入字符串的字符过程中，每一步对应的维护SAM。\par
+
+为了保证线性的空间复杂度，状态节点中将只保存 $\operatorname{len}$ 和 $\operatorname{link}$ 的值和每个状态的转移列表。\par
+
+一开始 SAM 只包含一个状态 $t_0$ ，编号为 $0$ （其它状态的编号为 $1,2,\ldots$ ）。
+为了方便，对于状态 $t_0$ 我们指定 $\operatorname{len}=0$ 、 $\operatorname{link}=-1$ （ $-1$ 表示虚拟状态）。\par
+
+现在，任务转化为实现给当前字符串添加一个字符 $c$ 的过程。算法流程如下：
+\begin{enumerate}
+\item 令 $\textit{last}$ 为添加字符 $c$ 之前，整个字符串对应的状态（一开始我们设 $\textit{last}=0$ ，算法的最后一步更新 $\textit{last}$ ）。
+\item 创建一个新的状态 $\textit{cur}$ ，并将 $\operatorname{len}(\textit{cur})$ 赋值为 $\operatorname{len}(\textit{last})+1$ ，在这时 $\operatorname{link}(\textit{cur})$ 的值还未知。
+\item 现在我们按以下流程进行（从状态 $\textit{last}$ 开始）。如果还没有到字符 $c$ 的转移，我们就添加一个到状态 $\textit{cur}$ 的转移，遍历后缀链接。
+如果在某个点已经存在到字符 $c$ 的转移，我们就停下来，并将这个状态标记为 $p$ 。
+\item 如果没有找到这样的状态 $p$ ，我们就到达了虚拟状态 $-1$ ，我们将 $\operatorname{link}(\textit{cur})$ 赋值为 $0$ 并退出。
+\item 假设现在我们找到了一个状态 $p$ ，其可以通过字符 $c$ 转移。我们将转移到的状态标记为 $q$ 。
+\item 现在我们分类讨论两种状态，要么 $\operatorname{len}(p) + 1 = \operatorname{len}(q)$ ，要么不是。
+\item 如果 $\operatorname{len}(p)+1=\operatorname{len}(q)$ ，我们只要将 $\operatorname{link}(\textit{cur})$ 赋值为 $q$ 并退出。
+\item 否则就会有些复杂。需要 复制 状态 $q$ ：我们创建一个新的状态 $\textit{clone}$ ，复制 $q$ 的除了 $\operatorname{len}$ 的值以外的所有信息（后缀链接和转移）。
+我们将 $\operatorname{len}(\textit{clone})$ 赋值为 $\operatorname{len}(p)+1$ 。  
+复制之后，我们将后缀链接从 $\textit{cur}$ 指向 $\textit{clone}$ ，也从 $q$ 指向 $\textit{clone}$ 。  
+最终我们需要使用后缀链接从状态 $p$ 往回走，只要存在一条通过 $p$ 到状态 $q$ 的转移，就将该转移重定向到状态 $\textit{clone}$ 。
+\item 以上三种情况，在完成这个过程之后，我们将 $\textit{last}$ 的值更新为状态 $\textit{cur}$ 。
+\end{enumerate}
+
+\textbf{标记终止状态}在构造完完整的 SAM 后找到所有的终止状态。\par
+为此，我们从对应整个字符串的状态（存储在变量 $\textit{last}$ 中），遍历它的后缀链接，直到到达初始状态。我们将所有遍历到的节点都标记为终止节点。
+容易理解这样做我们会准确地标记字符串 $s$ 的所有后缀，这些状态都是终止状态。
+

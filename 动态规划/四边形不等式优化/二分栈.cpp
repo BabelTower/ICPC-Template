@@ -1,3 +1,7 @@
+/*
+* 题目: [HNOI2008]玩具装箱
+* URL: https://www.luogu.com.cn/problem/P3195
+*/
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;

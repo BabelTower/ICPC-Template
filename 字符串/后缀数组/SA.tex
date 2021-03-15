@@ -1,0 +1,14 @@
+\paragraph{应用}~{}
+\par
+\subparagraph{比较一个字符串的两个子串的大小关系}~{}
+\par
+假设需要比较的是 $A=S[a..b]$ 和 $B=S[c..d]$ 的大小关系。\par
+若 $lcp(a, c)\ge\min(|A|, |B|)$，$A<B\iff |A|<|B|$。\par
+否则，$A<B\iff rk[a]< rk[b]$。\par
+
+\subparagraph{不同子串的数目}~{}
+\par
+子串就是后缀的前缀，所以可以枚举每个后缀，计算前缀总数，再减掉重复。\par
+“前缀总数”其实就是子串个数，为 $n(n+1)/2$。\par
+如果按后缀排序的顺序枚举后缀，每次新增的子串就是除了与上一个后缀的 LCP 剩下的前缀。这些前缀一定是新增的，否则会破坏 $lcp(sa[i],sa[j])=\min\{height[i+1..j]\}$ 的性质。只有这些前缀是新增的，因为 LCP 部分在枚举上一个前缀时计算过了。\par
+所以答案为：$\frac{n(n+1)}{2}-\sum\limits_{i=2}^nheight[i]$\par

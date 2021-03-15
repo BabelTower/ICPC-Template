@@ -1,0 +1,335 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage{ctex} % 支持中文
+%\usepackage{listings}
+%\usepackage{zh_CN-Adobefonts_external}
+\usepackage{xeCJK}
+\usepackage{color}
+\usepackage{amsmath, amsthm}
+\usepackage{listings,xcolor}
+\usepackage{geometry} % 设置页边距
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage[colorlinks]{hyperref}
+\usepackage{setspace}
+\usepackage{fancyhdr} % 自定义页眉页脚
+
+%\setsansfont{Consolas} % 设置英文字体
+%\setmonofont[Mapping={}]{Consolas} % 英文引号之类的正常显示，相当于设置英文字体
+
+\linespread{1.2}
+
+\title{ACM template}
+\author{fangzeyu @ ZJUT}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\pagestyle{fancy}
+
+\lhead{\CJKfamily{kai} Zhejiang University of Technology} %以下分别为左中右的页眉和页脚
+\chead{}
+
+\rhead{\CJKfamily{kai} 第 \thepage 页}
+\lfoot{} 
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0.4pt} 
+\renewcommand{\footrulewidth}{0.4pt}
+%\geometry{left=2.5cm,right=3cm,top=2.5cm,bottom=2.5cm} % 页边距
+\geometry{left=3.18cm,right=3.18cm,top=2.54cm,bottom=2.54cm}
+\setlength{\columnsep}{30pt}
+
+\makeatletter
+
+\makeatother
+
+\lstset{
+    language    = c++,
+    numbers     = left,
+    numberstyle={                               % 设置行号格式
+        \small
+        \color{black}
+        \fontspec{PingFangSC-Regular}
+    },
+	commentstyle = \color[RGB]{0,128,0}\bfseries, %代码注释的颜色
+	keywordstyle={                              % 设置关键字格式
+        \color[RGB]{40,40,255}
+        \fontspec{PingFangSC-Regular}
+        \bfseries
+    },
+	stringstyle={                               % 设置字符串格式
+        \color[RGB]{128,0,0}
+        \fontspec{PingFangSC-Regular}
+        \bfseries
+    },
+	basicstyle={                                % 设置代码格式
+        \fontspec{PingFangSC-Regular}
+        \small\ttfamily
+    },
+	emphstyle=\color[RGB]{112,64,160},          % 设置强调字格式
+    breaklines=true,                            % 设置自动换行
+    tabsize     = 4,
+    frame       = single,%主题
+    columns     = fullflexible,
+    rulesepcolor = \color{red!20!green!20!blue!20}, %设置边框的颜色
+    showstringspaces = false, %不显示代码字符串中间的空格标记
+	escapeinside={\%*}{*)},
+}
+
+\begin{document}
+\maketitle
+\newpage 
+
+\tableofcontents
+
+\newpage\section{基础}
+\subsection{快读}
+\lstinputlisting{基础/read.cpp}
+\subsection{bitset}
+\begin{spacing}{1.5}
+\input{基础/bitset.tex}
+\end{spacing}
+\lstinputlisting{基础/bitset.cpp}
+\subsection{int128}
+\lstinputlisting{基础/int128.cpp}
+\subsection{vector去重}
+\lstinputlisting{基础/vector去重.cpp}
+\section{动态规划}
+\subsection{背包DP}
+\subsubsection{树形背包}
+\lstinputlisting{动态规划/背包DP/树形背包.cpp}
+\subsection{概率DP}
+\subsubsection{概率DP}
+\begin{spacing}{1.5}
+\input{动态规划/概率DP/总结.tex}
+\end{spacing}
+\lstinputlisting{动态规划/概率DP/概率DP.cpp}
+\subsubsection{树上概率DP}
+\lstinputlisting{动态规划/概率DP/树上概率DP.cpp}
+\subsection{数位DP}
+\subsubsection{模版}
+\lstinputlisting{动态规划/数位DP/模版.cpp}
+\subsection{树形DP}
+\subsubsection{树上背包}
+\lstinputlisting{动态规划/树形DP/树上背包.cpp}
+\subsubsection{换根DP}
+\lstinputlisting{动态规划/树形DP/换根DP.cpp}
+\subsection{动态DP}
+\begin{spacing}{1.5}
+\input{动态规划/动态DP.tex}
+\end{spacing}
+\lstinputlisting{动态规划/动态DP.cpp}
+\subsection{插头DP}
+\subsubsection{路径模型}
+\lstinputlisting{动态规划/插头DP/路径模型.cpp}
+\subsubsection{多条回路}
+\lstinputlisting{动态规划/插头DP/多条回路.cpp}
+\subsection{状压DP}
+\subsubsection{状压DP}
+\begin{spacing}{1.5}
+\input{动态规划/状压DP/状压DP.tex}
+\end{spacing}
+\lstinputlisting{动态规划/状压DP/状压DP.cpp}
+\subsection{四边形不等式优化}
+\subsubsection{总结}
+\begin{spacing}{1.5}
+\input{动态规划/四边形不等式优化/总结.tex}
+\end{spacing}
+\subsubsection{1D1D分治}
+\lstinputlisting{动态规划/四边形不等式优化/分治.cpp}
+\subsubsection{1D1D二分栈}
+\lstinputlisting{动态规划/四边形不等式优化/二分栈.cpp}
+\subsubsection{区间类2D1D}
+\lstinputlisting{动态规划/四边形不等式优化/区间类2D1D.cpp}
+\subsection{单调栈单调队列优化}
+\subsubsection{一维}
+\lstinputlisting{动态规划/单调栈单调队列优化/一维.cpp}
+\subsubsection{二维}
+\lstinputlisting{动态规划/单调栈单调队列优化/二维.cpp}
+\subsection{矩阵优化}
+\subsubsection{矩阵乘法}
+\lstinputlisting{动态规划/矩阵优化/矩阵乘法.cpp}
+\subsubsection{广义矩阵乘法}
+\lstinputlisting{动态规划/矩阵优化/广义矩阵乘法.cpp}
+\subsection{GarsiaWachs算法}
+\lstinputlisting{动态规划/GarsiaWachs算法.cpp}
+\section{字符串}
+\subsection{KMP}
+\lstinputlisting{字符串/KMP.cpp}
+\subsection{扩展KMP}
+\lstinputlisting{字符串/exKMP.cpp}
+\subsection{最小表示法}
+\lstinputlisting{字符串/最小表示法.cpp}
+\subsection{哈希}
+\lstinputlisting{字符串/hash.cpp}
+\subsection{马拉车}
+\lstinputlisting{字符串/Manacher.cpp}
+\subsection{字典树}
+\subsubsection{Trie}
+\lstinputlisting{字符串/字典树/Trie.cpp}
+\subsubsection{01-Trie}
+\lstinputlisting{字符串/字典树/01-Trie.cpp}
+\subsection{后缀数组}
+\subsubsection{总结}
+\begin{spacing}{1.5}
+\input{字符串/后缀数组/SA.tex}
+\end{spacing}
+\subsubsection{倍增}
+\lstinputlisting{字符串/后缀数组/da.cpp}
+\subsubsection{DC3}
+\lstinputlisting{字符串/后缀数组/dc3.cpp}
+\subsection{单串SAM}
+\begin{spacing}{1.5}
+\input{字符串/后缀自动机.tex}
+\end{spacing}
+\lstinputlisting{字符串/后缀自动机.cpp}
+\subsection{多串SAM}
+\begin{spacing}{1.5}
+\input{字符串/多串SAM.tex}
+\end{spacing}
+\lstinputlisting{字符串/多串SAM.cpp}
+\subsection{后缀树}
+\lstinputlisting{字符串/后缀树.cpp}
+\subsection{Lyndon分解}
+\begin{spacing}{1.5}
+\input{字符串/Lydon分解.tex}
+\end{spacing}
+\lstinputlisting{字符串/Lyndon分解.cpp}
+\section{数据结构}
+\subsection{ST表}
+\lstinputlisting{数据结构/ST表.cpp}
+\subsection{线段树}
+\lstinputlisting{数据结构/线段树.cpp}
+\subsection{二维线段树}
+\lstinputlisting{数据结构/二维线段树.cpp}
+\subsection{主席树}
+\lstinputlisting{数据结构/主席树.cpp}
+\subsection{主席树}
+\lstinputlisting{数据结构/主席树.cpp}
+\subsection{线性基}
+\lstinputlisting{数据结构/线性基.cpp}
+\subsection{舞蹈链}
+\lstinputlisting{数据结构/舞蹈链.cpp}
+\subsection{划分树}
+\lstinputlisting{数据结构/划分树.cpp}
+\subsection{单调栈}
+\begin{spacing}{1.5}
+\input{数据结构/单调栈.tex}
+\end{spacing}
+\subsection{并查集}
+\subsubsection{带权并查集}
+\lstinputlisting{数据结构/并查集/带权并查集.cpp}
+\subsubsection{可撤销并查集}
+\lstinputlisting{数据结构/并查集/可撤销并查集.cpp}
+\subsubsection{可撤销种类并查集}
+\lstinputlisting{数据结构/并查集/可撤销种类并查集.cpp}
+\section{计算几何}
+\subsection{判两条线段相交}
+\lstinputlisting{计算几何/判两条线段相交.cpp}
+\section{数论}
+\subsection{埃式筛法}
+\lstinputlisting{数论/埃式筛法.cpp}
+\subsection{分数类}
+\lstinputlisting{数论/分数类.cpp}
+\subsection{三分}
+\lstinputlisting{数论/三分.cpp}
+\subsection{组合数}
+\lstinputlisting{数论/组合数.cpp}
+\subsection{exgcd}
+\lstinputlisting{数论/exgcd.cpp}
+\subsection{高斯消元}
+\lstinputlisting{数论/高斯消元.cpp}
+\subsection{计数}
+\begin{spacing}{1.5}
+\input{数论/计数.tex}
+\end{spacing}
+\subsection{数列}
+\subsubsection{oeis}
+\lstinputlisting{数论/数列/oeis.cpp}
+\subsubsection{Bell数}
+\lstinputlisting{数论/数列/bell.cpp}
+\subsubsection{Catalan数}
+\lstinputlisting{数论/数列/Catalan.cpp}
+\subsubsection{超级Catalan数}
+\lstinputlisting{数论/数列/super-Catalan.cpp}
+\subsubsection{stirling}
+\lstinputlisting{数论/数列/stirling.cpp}
+\section{图论}
+\subsection{有向图判环}
+\begin{spacing}{1.5}
+\input{图论/有向图判环.tex}
+\end{spacing}
+\subsection{HK算法}
+\lstinputlisting{图论/HK算法.cpp}
+\subsection{点分治}
+\lstinputlisting{图论/点分治.cpp}
+\subsection{树链剖分}
+\lstinputlisting{图论/树链剖分.cpp}
+\subsection{矩阵树定理}
+\lstinputlisting{图论/矩阵树定理.cpp}
+\subsection{一般图最大匹配}
+\lstinputlisting{图论/一般图最大匹配.cpp}
+\subsection{最近公共祖先}
+\lstinputlisting{图论/最近公共祖先.cpp}
+\subsection{最小树形图}
+\lstinputlisting{图论/最小树形图.cpp}
+\subsection{二分图}
+\begin{spacing}{1.5}
+\input{图论/二分图.tex}
+\end{spacing}
+\subsection{判无向图是否为二分图}
+\begin{spacing}{1.5}
+\input{图论/判无向图是否为二分图.tex}
+\end{spacing}
+\subsection{KM算法}
+\lstinputlisting{图论/KM算法.cpp}
+\subsection{染色法判二分图}
+\lstinputlisting{图论/染色法判二分图.cpp}
+\subsection{匈牙利算法}
+\lstinputlisting{图论/匈牙利算法.cpp}
+\subsection{矩阵树定理}
+\begin{spacing}{1.5}
+\input{图论/矩阵树定理.tex}
+\end{spacing}
+\subsection{启发式合并}
+\lstinputlisting{图论/启发式合并.cpp}
+\subsection{2-SAT}
+\lstinputlisting{图论/2-SAT.cpp}
+\subsection{网络流}
+\subsubsection{网络流}
+\begin{spacing}{1.5}
+\input{图论/网络流/网络流.tex}
+\end{spacing}
+\subsubsection{最大费用流}
+\lstinputlisting{图论/网络流/最大费用流.cpp}
+\subsubsection{最大费用最大流}
+\lstinputlisting{图论/网络流/最大费用最大流.cpp}
+\subsubsection{zkw费用流}
+\lstinputlisting{图论/网络流/zkw费用流.cpp}
+\subsubsection{费用流}
+\lstinputlisting{图论/网络流/费用流.cpp}
+\subsubsection{dinic}
+\lstinputlisting{图论/网络流/dinic.cpp}
+\subsection{最短路}
+\subsubsection{Floyd}
+\begin{spacing}{1.5}
+\input{图论/最短路/Floyd.tex}
+\end{spacing}
+\lstinputlisting{图论/最短路/Floyd.cpp}
+\subsubsection{Bellman-Ford}
+\begin{spacing}{1.5}
+\input{图论/最短路/Bellman-Ford.tex}
+\end{spacing}
+\lstinputlisting{图论/最短路/Bellman-Ford.cpp}
+\subsubsection{dijkstra}
+\lstinputlisting{图论/最短路/dijkstra.cpp}
+\subsubsection{bfs全源最短路径}
+\lstinputlisting{图论/最短路/bfs全源最短路径.cpp}
+\subsubsection{Johnson全源最短路径算法}
+\lstinputlisting{图论/最短路/Johnson全源最短路径算法.cpp}
+\section{杂项}
+\subsection{随机化}
+\subsubsection{模拟退火}
+\lstinputlisting{杂项/随机化/模拟退火.cpp}
+\end{document}

@@ -1,0 +1,11 @@
+<KMP> <KMP.cpp>
+<扩展KMP> <exKMP.cpp>
+<最小表示法> <最小表示法.cpp>
+<哈希> <hash.cpp>
+<马拉车> <Manacher.cpp>
+<字典树> <> <> <字典树>
+<后缀数组> <> <> <后缀数组>
+<单串SAM> <后缀自动机.cpp> <后缀自动机.tex>
+<多串SAM> <多串SAM.cpp> <多串SAM.tex> 
+<后缀树> <后缀树.cpp>
+<Lyndon分解> <Lyndon分解.cpp> <Lydon分解.tex>
